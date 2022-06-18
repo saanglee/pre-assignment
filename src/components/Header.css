@@ -1,0 +1,50 @@
+.Header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  padding: 10px;
+  border-bottom: 1px solid #dbdbdb;
+
+  display: flex;
+  justify-content: center;
+}
+.header_wrapper {
+  width: 100%;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo_img {
+  width: 300px;
+}
+img {
+  width: 150px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.search {
+  border-radius: 8px;
+  background-color: #efefef;
+  width: 250px;
+  height: 35px;
+  margin: 5px;
+  padding: 10px;
+}
+
+.search::placeholder {
+  color: #929292;
+}
+
+nav {
+  width: 400px;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-evenly;
+  align-content: center;
+  list-style: none;
+}
