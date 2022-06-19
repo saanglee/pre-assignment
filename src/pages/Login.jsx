@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './Login.css';
-//
+
 const Login = () => {
+  const emailRef = useRef();
+  const passwordRef = useRef();
+
+  const [loginInfo, setLoginInfo] = useState([]);
   const [state, setState] = useState({
     email: '',
     password: '',
@@ -12,7 +16,26 @@ const Login = () => {
     validPassword: true,
   });
 
+  const [isValidBtn, setIsValidBtn] = useState(false);
+
+  // localStorage에 저장
+  const StoreLoginInfo = (email, password) => {
+    const newInfo = {
+      email,
+      password,
+    };
+    setLoginInfo([...loginInfo, newInfo]);
+    localStorage.setItem('login', JSON.stringify(newInfo));
+  };
+
+  // TODO: 로그인 버튼 색깔 변경 구현
+  const handleButton = () => {
+    if (isValid.validEmail && isValid.validPassword) {
+      setIsValidBtn(true);
+    }
+  };
   const handleSubmit = () => {
+    StoreLoginInfo(state);
     setState({
       email: '',
       password: '',
@@ -20,29 +43,28 @@ const Login = () => {
   };
 
   const validateEamil = (email) => {
-    const emailRegx = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9-]+$/;
+    const emailRegx = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     if (emailRegx.test(email)) {
-      console.log('Valid Email');
+      // valid
       setIsValid({ validEmail: true });
-      console.log(`isValid.validEmail : ${isValid.validEmail}`);
     } else {
-      console.log('Invalid Email');
+      // infalid
       setIsValid({ validEmail: false });
     }
+    console.log(`isValid.validEmail : ${isValid.validEmail}`);
   };
 
   const validatePassword = (password) => {
     const pwRegx =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (pwRegx.test(password)) {
-      console.log('Valid password');
       setIsValid({ validPassword: true });
     } else {
-      console.log('Invalid Password');
       setIsValid({ validPassword: false });
     }
+    console.log(`isValid.validPassword : ${isValid.validPassword}`);
   };
-
+  /*
   const handleChangeEmail = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
     validateEamil(state.email);
@@ -50,6 +72,12 @@ const Login = () => {
 
   const handleChangePassword = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
+    validatePassword(state.password);
+  };
+*/
+  const handleChangeState = (e) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+    validateEamil(state.email);
     validatePassword(state.password);
   };
 
@@ -64,28 +92,33 @@ const Login = () => {
 
         <div className="email_wrapper">
           <input
+            ref={emailRef}
             className={
               isValid.validEmail ? 'input_email' : 'input_email_invalid'
             }
             type="email"
             name="email"
             value={state.email}
-            onChange={handleChangeEmail}
+            onChange={handleChangeState}
             placeholder="전화번호, 사용자 이름 또는 이메일"
           />
         </div>
         <div className="pw_wrapper">
           <input
+            ref={passwordRef}
             className={isValid.validPassword ? 'input_pw' : 'input_pw_invalid'}
             type="passwoard"
             name="password"
             value={state.password}
-            onChange={handleChangePassword}
+            onChange={handleChangeState}
             placeholder="비밀번호"
           />
         </div>
 
-        <button className="btn_login" onClick={handleSubmit}>
+        <button
+          className={isValidBtn ? 'valid_btn_login' : 'btn_login'}
+          onClick={handleSubmit}
+        >
           로그인
         </button>
         <div className="forgot_pw">비밀번호를 잊으셨나요?</div>

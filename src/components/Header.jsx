@@ -19,7 +19,7 @@ const Header = () => {
           <ul className="headermenu_ul">
             <li className="header_item">1</li>
             <li className="header_item">2</li>
-            <li className="header_item">3</li>
+            <li className="header_item">Login/Logout</li>
           </ul>
         </nav>
       </div>

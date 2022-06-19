@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Login from './pages/Login';
 import Header from './components/Header';
-import Feeds from './components/Feeds';
+import Main from './components/Main';
 
 function App() {
   return (
     <div className="App">
       <Header />
       <Login />
-      <Feeds />
+      <Main />
     </div>
   );
 }

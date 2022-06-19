@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './Cards.css';
+import React, { useState, useRef } from 'react';
+import './Feed.css';
 
 import { BookMarkIcon } from '../assets/index.js';
 import { CommentIcon } from '../assets/index.js';
@@ -8,8 +8,21 @@ import { LikeIcon } from '../assets/index.js';
 import { ShareIcon } from '../assets/index.js';
 import { SmileIcon } from '../assets/index.js';
 
-const Cards = () => {
-  const [comment, setComment] = useState('');
+import Comment from './Comment';
+import CommentList from './CommentList';
+
+const Feed = () => {
+  const commentId = useRef(0);
+  const [comments, setComments] = useState([]);
+
+  const onCreate = (comment) => {
+    const newItem = {
+      comment,
+      id: commentId.current,
+    };
+    commentId.current += 1;
+    setComments([...comments, newItem]);
+  };
 
   const bookMarkIcon = <BookMarkIcon />;
   const commentIcon = <CommentIcon />;
@@ -18,17 +31,9 @@ const Cards = () => {
   const shareIcon = <ShareIcon />;
   const smileIcon = <SmileIcon />;
 
-  const handleChangeState = (e) => {
-    setComment(e.target.value);
-  };
-
-  const handleSubmit = () => {
-    console.log(comment);
-    setComment('');
-  };
   return (
-    <article className="Cards">
-      <header className="card_header">
+    <article className="Feed">
+      <header className="feed_header">
         <div className="profile_wrapper">
           <p className="profile_img"></p>
           <p className="profile_name">name</p>
@@ -39,35 +44,22 @@ const Cards = () => {
       <section>
         <img src="" alt="" />
       </section>
-
       <section>
-        <div className="card_menus">
+        <div className="content">content</div>
+      </section>
+      <section>
+        <div className="feed_menus">
           {/* TODO: icon 넣기 */}
           {/* <div className="icons">{commentIcon}</div> */}
           <div>like, comment, share</div>
           <div className="icons">{bookMarkIcon}</div>
         </div>
-        <div className="card_likes">좋아요 0개</div>
-        <div className="card_comments">
-          <p>댓글1</p>
-          <p>댓글2</p>
-          <p>댓글3</p>
-        </div>
-        <div></div>
+        <div className="feed_likes">좋아요 0개</div>
+        <CommentList commentList={comments} />
       </section>
-      <section className="card_input_comment">
-        <input
-          type="text"
-          value={comment}
-          onChange={handleChangeState}
-          placeholder="댓글 달기..."
-        />
-        <button className="comment_btn" onClick={handleSubmit}>
-          게시
-        </button>
-      </section>
+      <Comment onCreate={onCreate} />
     </article>
   );
 };
 
-export default Cards;
+export default Feed;
