@@ -31,7 +31,7 @@
 
 ### 메인페이지 모바일
 
-- [ ] 상단 가운데 Input창 사라짐
+- [x] 상단 가운데 Input창 사라짐
 - [ ] 양옆으로(space-between) 정렬
 
 <br>
@@ -52,9 +52,10 @@
 - [ ] Feed Component Layout: 인스타그램과 동일하게 구현
 - [ ] 각 Feed의 정보: public/data 디렉토리에 json형식으로 구성하여 fetch, axios 등을 이용하여 data를 요청
 - [ ] Feed 3개이상 랜더링
-- [ ] 각 Feed에 댓글 추가 기능 구현 (Enter key & 클릭으로 게시 가능하도록)
-- [ ] 모바일 대응 가능
-- [ ] 게시 후 Input 초기화
+- [x] 각 Feed에 댓글 추가 기능 구현 - 클릭으로 게시 가능
+- [x] 각 Feed에 댓글 추가 기능 구현 - Enter key로 게시 가능
+- [x] 모바일 대응 가능
+- [x] 게시 후 Input 초기화
 - [ ] Feed의 이미지: 각각 사이즈 다르게 구현
 
 ### Feeds 로딩

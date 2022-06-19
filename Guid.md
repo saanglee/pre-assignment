@@ -70,7 +70,7 @@ npm start
 - 로그인이 완료되면 라우터에서 Main Page로 이동되어야 합니다. (history push 사용 X)
 - 로그아웃되면 (Local Storage가 삭제되면) Login Page로 이동되어야 합니다.(history push 사용 X)
 
-## Assignment5 - `Feeds`
+## Assignment5 - `Main`
 
 - 피드 컴포넌트를 개발합니다.
 - 레이아웃을 인스타그램과 동일하게 구현해주시면 됩니다. (픽셀 단위까지 맞추실 필요는 없으나 보기에 자연스럽도록 개발해주세요.)
