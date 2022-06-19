@@ -48,3 +48,10 @@ nav ul {
   align-content: center;
   list-style: none;
 }
+
+@media (max-width: 800px) {
+  .search {
+    visibility: hidden;
+    width: 1px;
+  }
+}
