@@ -6,40 +6,51 @@ const Login = () => {
     email: '',
     password: '',
   });
-  const [isValidEmail, setIsValidEmail] = useState(false);
-  const [isValidPw, setIsValidPw] = useState(false);
+
+  const [isValid, setIsValid] = useState({
+    validEmail: true,
+    validPassword: true,
+  });
 
   const handleSubmit = () => {
     setState({
-      // 로그인 클릭 후 input 초기화
       email: '',
       password: '',
     });
   };
-  // TODO: pw regx : 대문자, 숫자, 특수문자 포함 8자리 이상
-  const confirmValidEmail = (email) => {
-    const emailRegx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+  const validateEamil = (email) => {
+    const emailRegx = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9-]+$/;
     if (emailRegx.test(email)) {
-      setIsValidEmail(true);
+      console.log('Valid Email');
+      setIsValid({ validEmail: true });
+      console.log(`isValid.validEmail : ${isValid.validEmail}`);
     } else {
-      setIsValidEmail(false);
+      console.log('Invalid Email');
+      setIsValid({ validEmail: false });
     }
   };
 
-  const confirmValidPw = (pw) => {
+  const validatePassword = (password) => {
     const pwRegx =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (emailRegx.test(pw)) {
-      setIsValidPw(true);
+    if (pwRegx.test(password)) {
+      console.log('Valid password');
+      setIsValid({ validPassword: true });
     } else {
-      setIsValidPw(false);
+      console.log('Invalid Password');
+      setIsValid({ validPassword: false });
     }
   };
 
-  const handleChangeState = (e) => {
+  const handleChangeEmail = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
-    confirmValidEmail(e.target.value);
-    confirmValidPw(e.target.value);
+    validateEamil(state.email);
+  };
+
+  const handleChangePassword = (e) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+    validatePassword(state.password);
   };
 
   return (
@@ -53,21 +64,23 @@ const Login = () => {
 
         <div className="email_wrapper">
           <input
-            className={isValidEmail ? 'input_email' : 'input_email_invalid'}
+            className={
+              isValid.validEmail ? 'input_email' : 'input_email_invalid'
+            }
             type="email"
             name="email"
             value={state.email}
-            onChange={handleChangeState}
+            onChange={handleChangeEmail}
             placeholder="전화번호, 사용자 이름 또는 이메일"
           />
         </div>
         <div className="pw_wrapper">
           <input
-            className={isValidPw ? 'input_pw' : 'input_pw_invalid'}
+            className={isValid.validPassword ? 'input_pw' : 'input_pw_invalid'}
             type="passwoard"
             name="password"
             value={state.password}
-            onChange={handleChangeState}
+            onChange={handleChangePassword}
             placeholder="비밀번호"
           />
         </div>
