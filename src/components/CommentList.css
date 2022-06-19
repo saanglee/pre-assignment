@@ -1,0 +1,8 @@
+.CommentList {
+  width: 100%;
+  padding: 0 10px;
+}
+
+.CommentList li {
+  margin: 6px 0;
+}
