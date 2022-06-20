@@ -50,8 +50,8 @@
 
 - [x] 화면 중앙에 위치
 - [ ] Feed Component Layout: 인스타그램과 동일하게 구현
-- [ ] 각 Feed의 정보: public/data 디렉토리에 json형식으로 구성하여 fetch, axios 등을 이용하여 data를 요청
-- [ ] Feed 3개이상 랜더링
+- [x] 각 Feed의 정보: public/data 디렉토리에 json형식으로 구성하여 fetch, axios 등을 이용하여 data를 요청
+- [x] Feed 3개이상 랜더링
 - [x] 각 Feed에 댓글 추가 기능 구현 - 클릭으로 게시 가능
 - [x] 각 Feed에 댓글 추가 기능 구현 - Enter key로 게시 가능
 - [x] 모바일 대응 가능
