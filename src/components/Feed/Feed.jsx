@@ -1,15 +1,16 @@
 import React, { useState, useRef } from 'react';
-import './Feed.css';
 
-import { BookMarkIcon } from '../assets/index.js';
-import { CommentIcon } from '../assets/index.js';
-import { DotsIcon } from '../assets/index.js';
-import { LikeIcon } from '../assets/index.js';
-import { ShareIcon } from '../assets/index.js';
-import { SmileIcon } from '../assets/index.js';
+import { BookMarkIcon } from '../../assets/index.js';
+import { CommentIcon } from '../../assets/index.js';
+import { DotsIcon } from '../../assets/index.js';
+import { LikeIcon } from '../../assets/index.js';
+import { ShareIcon } from '../../assets/index.js';
+import { SmileIcon } from '../../assets/index.js';
 
-import Comment from './Comment';
-import CommentList from './CommentList';
+import Comment from '../Comment/Comment';
+import CommentList from '../Comment/CommentList';
+
+import styles from './feed.module.scss';
 
 const Feed = ({ id, name, img, content }) => {
   const commentId = useRef(0);
@@ -23,7 +24,6 @@ const Feed = ({ id, name, img, content }) => {
     commentId.current += 1;
     setComments([...comments, newItem]);
   };
-  console.log(comments.id);
 
   const onRemove = (targetId) => {
     const newCommentList = comments.filter((item) => item.id !== targetId);
@@ -38,28 +38,28 @@ const Feed = ({ id, name, img, content }) => {
   const smileIcon = <SmileIcon />;
 
   return (
-    <article className="Feed">
-      <header className="feed_header">
-        <div className="profile_wrapper">
-          <span className="profile_img"></span>
-          <span className="profile_name">{name}</span>
+    <article className={styles.Feed}>
+      <header className={styles.feed_header}>
+        <div className={styles.profile_wrapper}>
+          <span className={styles.profile_img}></span>
+          <span className={styles.profile_name}>{name}</span>
         </div>
         <div>...</div>
       </header>
 
       <section>
-        {img}
-        <img src="" alt="" />
+        {/* TODO: 피드 이미지 넣기  */}
+        <img src={`${process.env.PUBLIC_URL}/${img}`} alt="" />
       </section>
-      <div className="feed_menus">
+      <div className={styles.feed_menus}>
         {/* TODO: icon 넣기 */}
         <div>like, comment, share</div>
-        <div className="icons">{bookMarkIcon}</div>
+        <div className={styles.icons}>{bookMarkIcon}</div>
       </div>
-      <section className="feed_content">
+      <section className={styles.feed_content}>
         <div>좋아요 0개</div>
-        <span className="profile_name">{name}</span>
-        <span className="content">{content}</span>
+        <span className={styles.profile_name}>{name}</span>
+        <span className={styles.content}>{content}</span>
       </section>
       <section>
         <CommentList commentList={comments} onRemove={onRemove} />

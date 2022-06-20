@@ -1,28 +1,38 @@
 .Login {
-  margin-top: 100px;
-  margin-bottom: 50px;
+  background-color: #fafafa;
+  height: 100vh;
+  // width: 100vw;
+  padding-top: 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.login_wrapper {
-  padding-top: 20px;
+.login_form {
+  padding-top: 70px;
   width: 400px;
-  height: 400px;
+  height: 500px;
+  background-color: #fff;
   border: 1px solid #e5e5e5;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-img {
-  width: 300px;
-  height: 90px;
+.input_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 0;
+}
+
+.instagram_logo {
+  width: 200px;
+  height: 100px;
   object-fit: contain;
 }
 
-.input_email,
-.input_pw {
+.email_input,
+.pwd_input {
   border: 1px solid #e5e5e5;
   border-radius: 5px;
   background-color: #fafafa;
@@ -32,8 +42,7 @@ img {
   padding: 10px;
 }
 
-.input_email_invalid,
-.input_pw_invalid {
+.invalid {
   border: 2px solid red;
   border-radius: 5px;
   background-color: #fafafa;
@@ -65,7 +74,7 @@ input:blur {
   padding: 10px;
 } */
 
-.btn_login {
+.login_btn {
   width: 300px;
   height: 40px;
   margin: 10px 5px;
@@ -90,7 +99,7 @@ input:blur {
   color: #1e4371;
   font-size: 12px;
 }
-.signup_wrapper {
+.signup_form {
   padding: 20px;
   margin-top: 20px;
   text-align: center;
@@ -98,4 +107,5 @@ input:blur {
   width: 400px;
   height: 60px;
   border: 1px solid #e5e5e5;
+  background-color: #fff;
 }

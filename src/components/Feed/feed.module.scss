@@ -1,0 +1,39 @@
+.Feed {
+  width: 500px;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+  background-color: #fff;
+  margin: 30px;
+}
+
+.feed_header,
+.feed_menus {
+  width: 100%;
+  height: 50px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile_wrapper {
+  display: flex;
+  align-items: center;
+}
+.profile_name {
+  font-weight: bold;
+  margin-right: 10px;
+}
+.profile_img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  background-color: #dbdbdb;
+  border-radius: 50px;
+}
+
+@media (max-width: 800px) {
+  .Feed {
+    width: 350px;
+  }
+}

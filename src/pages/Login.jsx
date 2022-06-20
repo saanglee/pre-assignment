@@ -1,24 +1,32 @@
-import React, { useState, useRef } from 'react';
-import './Login.css';
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import styles from './login.module.scss';
+import cx from 'classnames';
 
 const Login = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
 
+  const [loggedIn, setLoggedIn] = useState(false);
+
   const [loginInfo, setLoginInfo] = useState([]);
-  const [state, setState] = useState({
-    email: '',
-    password: '',
-  });
 
-  const [isValid, setIsValid] = useState({
-    validEmail: true,
-    validPassword: true,
-  });
+  const [emailState, setEmailState] = useState('');
+  const [pwdState, setPwdState] = useState('');
 
-  const [isValidBtn, setIsValidBtn] = useState(false);
+  const [emailValid, setEmailValid] = useState(false);
+  const [pwdValid, setPwdValid] = useState(false);
 
-  // localStorage에 저장
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (loggedIn) navigate('/main');
+  }, [loggedIn]);
+
+  // TODO: 로그인 버튼 색깔 변경 구현
+  // const [isValidBtn, setIsValidBtn] = useState(false);
+
+  // TODO: localStorage에 로그인 정보 저장
   const StoreLoginInfo = (email, password) => {
     const newInfo = {
       email,
@@ -28,102 +36,98 @@ const Login = () => {
     localStorage.setItem('login', JSON.stringify(newInfo));
   };
 
-  // TODO: 로그인 버튼 색깔 변경 구현
-  const handleButton = () => {
-    if (isValid.validEmail && isValid.validPassword) {
-      setIsValidBtn(true);
-    }
+  // email, pwd 상태 변경
+  const handleEmail = (e) => {
+    const { value } = e.currentTarget;
+    setEmailState(value);
   };
-  const handleSubmit = () => {
-    StoreLoginInfo(state);
-    setState({
-      email: '',
-      password: '',
+
+  const handlePwd = (e) => {
+    const { value } = e.currentTarget;
+    setPwdState(value);
+  };
+
+  // Email Validation
+  const emailRegex = (email) => {
+    const emailRegx = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
+    return emailRegx.test(email);
+  };
+
+  const validateEmail = () => {
+    const isEmailValid = emailRegex(emailState);
+    setEmailValid(isEmailValid);
+  };
+
+  // TODO: PWD Validation
+  const pwdRegex = (pwd) => {
+    const pwdRegx =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return pwdRegx.test(pwd);
+  };
+
+  const validatePwd = () => {
+    const isPwdValid = pwdRegex(pwdState);
+    setPwdValid(isPwdValid);
+  };
+
+  // Submit
+
+  const handleSubmitLogin = (e) => {
+    e.preventDefault();
+    // TODO: email , pwd state를 가지고 localStorage와 비교를 해서 true false 반환
+
+    // emailState, pwdState가 비어있으면 그냥 return
+    if (!emailState || !pwdState) return;
+
+    navigate('main', {
+      state: { email: emailState, pwd: pwdState, isLoggedIn: true },
     });
   };
 
-  const validateEamil = (email) => {
-    const emailRegx = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-    if (emailRegx.test(email)) {
-      // valid
-      setIsValid({ validEmail: true });
-    } else {
-      // infalid
-      setIsValid({ validEmail: false });
-    }
-    console.log(`isValid.validEmail : ${isValid.validEmail}`);
-  };
-
-  const validatePassword = (password) => {
-    const pwRegx =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (pwRegx.test(password)) {
-      setIsValid({ validPassword: true });
-    } else {
-      setIsValid({ validPassword: false });
-    }
-    console.log(`isValid.validPassword : ${isValid.validPassword}`);
-  };
-  /*
-  const handleChangeEmail = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value });
-    validateEamil(state.email);
-  };
-
-  const handleChangePassword = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value });
-    validatePassword(state.password);
-  };
-*/
-  const handleChangeState = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value });
-    validateEamil(state.email);
-    validatePassword(state.password);
-  };
-
   return (
-    <div className="Login">
-      <form className="login_wrapper">
+    <div className={styles.Login}>
+      <form className={styles.login_form} onSubmit={handleSubmitLogin}>
         <img
-          src="img/instagram_logo.png
+          className={styles.instagram_logo}
+          src="images/instagram_logo.png
       "
           alt="instagram_text_logo"
         />
-
-        <div className="email_wrapper">
+        <div className={styles.input_wrapper}>
+          {/* Email */}
           <input
             ref={emailRef}
-            className={
-              isValid.validEmail ? 'input_email' : 'input_email_invalid'
-            }
+            className={cx(styles.email_input, {
+              [styles.invalid]: emailState !== '' && !emailValid,
+            })}
+            // emailState가 비어있지 않고 emailValid가 true일 때 className = invalid
             type="email"
             name="email"
-            value={state.email}
-            onChange={handleChangeState}
+            value={emailState}
+            onChange={handleEmail}
+            onBlur={validateEmail}
             placeholder="전화번호, 사용자 이름 또는 이메일"
           />
-        </div>
-        <div className="pw_wrapper">
+
+          {/* Password */}
           <input
             ref={passwordRef}
-            className={isValid.validPassword ? 'input_pw' : 'input_pw_invalid'}
-            type="passwoard"
+            className={cx(styles.pwd_input)}
+            type="password"
             name="password"
-            value={state.password}
-            onChange={handleChangeState}
+            value={pwdState}
+            onChange={handlePwd}
+            onFocus={() => {}} // focus상태일 때 valid검사
+            onBlur={validatePwd}
             placeholder="비밀번호"
           />
         </div>
 
-        <button
-          className={isValidBtn ? 'valid_btn_login' : 'btn_login'}
-          onClick={handleSubmit}
-        >
-          로그인
-        </button>
-        <div className="forgot_pw">비밀번호를 잊으셨나요?</div>
+        <button className={styles.login_btn}>로그인</button>
+
+        <div className={styles.forgot_pw}>비밀번호를 잊으셨나요?</div>
       </form>
-      <form className="signup_wrapper">
+      <form className={styles.signup_form}>
         계정이 없으신가요? <a href="">가입하기</a>
       </form>
     </div>

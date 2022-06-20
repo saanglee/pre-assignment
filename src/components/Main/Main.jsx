@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Feed from './Feed';
+import Feed from '../Feed/Feed';
 
 import './Main.css';
 
@@ -38,10 +38,12 @@ const Main = () => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      getData();
-    }, 1500);
+    getData();
+    // setTimeout(() => {
+    //   getData();
+    // }, 1500);
   }, []);
+  console.log('feedData', feedData[0].image);
 
   return (
     <div className="Main">

@@ -1,5 +1,6 @@
 import React from 'react';
-import './CommentList.css';
+
+import styles from './comment.module.scss';
 
 const CommentList = ({ commentList, onRemove }) => {
   // FIXME: 삭제가 안됨
@@ -10,7 +11,7 @@ const CommentList = ({ commentList, onRemove }) => {
   };
 
   return (
-    <div className="CommentList">
+    <div className={styles.CommentList}>
       <p>댓글 {commentList.length}개</p>
       {commentList.map((item) => (
         <ul key={item.id}>

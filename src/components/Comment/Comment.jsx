@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 
+import styles from './comment.module.scss';
+
 const Comment = ({ onCreate }) => {
   const commentInput = useRef();
   const [comment, setComment] = useState('');
@@ -22,16 +24,14 @@ const Comment = ({ onCreate }) => {
   };
 
   return (
-    <section className="feed_input_comment" onKeyPress={handleKeyPress}>
+    <section className={styles.Comment} onKeyPress={handleKeyPress}>
       <input
         type="text"
         value={comment}
         onChange={handleChangeState}
         placeholder="댓글 달기..."
       />
-      <button className="comment_btn" onClick={handleSubmit}>
-        게시
-      </button>
+      <button onClick={handleSubmit}>게시</button>
     </section>
   );
 };
