@@ -1,8 +1,21 @@
 .CommentList {
   width: 100%;
-  padding: 0 10px;
+  padding: 10px;
 }
 
+.CommentList p {
+  color: #929292;
+  margin: 10px 0;
+}
 .CommentList li {
-  margin: 6px 0;
+  margin: 10px;
+}
+
+.CommentList ul {
+  display: flex;
+  justify-content: space-between;
+}
+.CommentList button {
+  color: #929292;
+  background-color: transparent;
 }

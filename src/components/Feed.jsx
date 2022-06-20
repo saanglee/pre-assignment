@@ -11,7 +11,7 @@ import { SmileIcon } from '../assets/index.js';
 import Comment from './Comment';
 import CommentList from './CommentList';
 
-const Feed = () => {
+const Feed = ({ id, name, img, content }) => {
   const commentId = useRef(0);
   const [comments, setComments] = useState([]);
 
@@ -22,6 +22,12 @@ const Feed = () => {
     };
     commentId.current += 1;
     setComments([...comments, newItem]);
+  };
+  console.log(comments.id);
+
+  const onRemove = (targetId) => {
+    const newCommentList = comments.filter((item) => item.id !== targetId);
+    setComments(newCommentList);
   };
 
   const bookMarkIcon = <BookMarkIcon />;
@@ -35,27 +41,28 @@ const Feed = () => {
     <article className="Feed">
       <header className="feed_header">
         <div className="profile_wrapper">
-          <p className="profile_img"></p>
-          <p className="profile_name">name</p>
+          <span className="profile_img"></span>
+          <span className="profile_name">{name}</span>
         </div>
         <div>...</div>
       </header>
 
       <section>
+        {img}
         <img src="" alt="" />
       </section>
-      <section>
-        <div className="content">content</div>
+      <div className="feed_menus">
+        {/* TODO: icon 넣기 */}
+        <div>like, comment, share</div>
+        <div className="icons">{bookMarkIcon}</div>
+      </div>
+      <section className="feed_content">
+        <div>좋아요 0개</div>
+        <span className="profile_name">{name}</span>
+        <span className="content">{content}</span>
       </section>
       <section>
-        <div className="feed_menus">
-          {/* TODO: icon 넣기 */}
-          {/* <div className="icons">{commentIcon}</div> */}
-          <div>like, comment, share</div>
-          <div className="icons">{bookMarkIcon}</div>
-        </div>
-        <div className="feed_likes">좋아요 0개</div>
-        <CommentList commentList={comments} />
+        <CommentList commentList={comments} onRemove={onRemove} />
       </section>
       <Comment onCreate={onCreate} />
     </article>
