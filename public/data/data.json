@@ -1,17 +1,17 @@
 [
   {
     "name": "_wanted_",
-    "img": "img",
+    "img": "Bom1.jpg",
     "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
   },
   {
     "name": "123pre",
-    "img": "img",
+    "img": "Bom2.jpg",
     "content": "ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
   },
   {
     "name": "on_boarding_",
-    "img": "img",
+    "img": "Janggun.jpg",
     "content": "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
   }
 ]
