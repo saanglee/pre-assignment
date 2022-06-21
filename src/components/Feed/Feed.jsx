@@ -13,6 +13,8 @@ import CommentList from '../Comment/CommentList';
 import styles from './feed.module.scss';
 
 const Feed = ({ id, name, img, content }) => {
+  // let test = JOSN.parse(img);
+  // console.log('FEED: ', test);
   const commentId = useRef(0);
   const [comments, setComments] = useState([]);
 

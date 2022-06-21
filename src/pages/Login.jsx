@@ -1,129 +1,148 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './login.module.scss';
 import cx from 'classnames';
+import store from 'store';
+
+const USER_LIST = 'userList';
+const EMAIL_PLACEHOLDER = '전화번호, 사용자 이름 또는 이메일';
 
 const Login = () => {
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const navigate = useNavigate();
 
-  const [loggedIn, setLoggedIn] = useState(false);
+  const localStorageUserList = store.get(USER_LIST) || [];
 
-  const [loginInfo, setLoginInfo] = useState([]);
+  const userList = useMemo(() => {
+    return localStorageUserList; // ❓
+  }, [localStorageUserList]); // localStorageUserList이 업데이트 될 때만 리렌더링?
 
   const [emailState, setEmailState] = useState('');
-  const [pwdState, setPwdState] = useState('');
-
   const [emailValid, setEmailValid] = useState(false);
+  const [emailFocus, setEmailFocus] = useState(false);
+
+  const [pwdState, setPwdState] = useState('');
   const [pwdValid, setPwdValid] = useState(false);
+  const [pwdFocus, setPwdFocus] = useState(false);
 
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (loggedIn) navigate('/main');
-  }, [loggedIn]);
+  /* Email, Password */
 
-  // TODO: 로그인 버튼 색깔 변경 구현
-  // const [isValidBtn, setIsValidBtn] = useState(false);
-
-  // TODO: localStorage에 로그인 정보 저장
-  const StoreLoginInfo = (email, password) => {
-    const newInfo = {
-      email,
-      password,
-    };
-    setLoginInfo([...loginInfo, newInfo]);
-    localStorage.setItem('login', JSON.stringify(newInfo));
+  // input focus
+  const handleEmailFocus = () => {
+    setEmailFocus((current) => !current); // ❓
   };
 
-  // email, pwd 상태 변경
-  const handleEmail = (e) => {
-    const { value } = e.currentTarget;
-    setEmailState(value);
+  const handlePwdFocus = () => {
+    setPwdFocus((current) => !current);
   };
 
-  const handlePwd = (e) => {
-    const { value } = e.currentTarget;
-    setPwdState(value);
+  // validate
+  const validateEmail = (value) => {
+    const emailRegx = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,8})+$/;
+    return emailRegx.test(value);
   };
 
-  // Email Validation
-  const emailRegex = (email) => {
-    const emailRegx = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
-    return emailRegx.test(email);
-  };
-
-  const validateEmail = () => {
-    const isEmailValid = emailRegex(emailState);
-    setEmailValid(isEmailValid);
-  };
-
-  // TODO: PWD Validation
-  const pwdRegex = (pwd) => {
+  const validatePwd = (value) => {
     const pwdRegx =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return pwdRegx.test(pwd);
+    return pwdRegx.test(value);
   };
 
-  const validatePwd = () => {
-    const isPwdValid = pwdRegex(pwdState);
-    setPwdValid(isPwdValid);
+  // state update and validation
+  const handleChangeEmail = (e) => {
+    const { value } = e.currentTarget; // TODO: 📝
+    setEmailState(value);
+    setEmailValid(validateEmail(value)); // validation
   };
 
-  // Submit
+  const handleChangePwd = (e) => {
+    const { value } = e.currentTarget;
+    setPwdState(value);
+    setPwdValid(validatePwd(value));
+  };
 
+  /* Submit */
   const handleSubmitLogin = (e) => {
     e.preventDefault();
-    // TODO: email , pwd state를 가지고 localStorage와 비교를 해서 true false 반환
 
-    // emailState, pwdState가 비어있으면 그냥 return
-    if (!emailState || !pwdState) return;
+    if (!emailValid || !pwdValid) return;
+    // 새로운 유저일 경우 1
+    if (!userList.length) {
+      console.log('새로운 유저!');
+      store.set(USER_LIST, [{ email: emailState, pwd: pwdState }]);
+      navigate('main', {
+        state: { email: emailState, pwd: pwdState, isLoggedIn: true },
+      });
+      return;
+    }
+    // 새로운 유저일 경우 2  ❓새로운 유저일 경우 2번?
+    const targetUser = userList.find((user) => user.email === emailState); // 여기서 emailState 가 새로 입력된 이메일?
+    // targetUser 는 지금 입력된 이메일을 가진 유저
+    if (targetUser === undefined) {
+      console.log('새로운 유저!');
+      store.set(USER_LIST, [{ email: emailState, pwd: pwdState }, ...userList]); // TODO: 📝 localStorage
+      navigate('main', {
+        state: { email: emailState, pwd: pwdState, isLoggedIn: true },
+      });
+      return;
+    }
 
-    navigate('main', {
-      state: { email: emailState, pwd: pwdState, isLoggedIn: true },
-    });
+    // 기존 유저일 경우
+    const validUser =
+      targetUser.email === emailState && targetUser.pwd === pwdState; // 아까 targetuser email이랑 pwd 일치 할 경우 = 유효한 계정
+    if (validUser) {
+      navigate('main', {
+        state: { email: emailState, pwd: pwdState, isLoggedIn: true },
+      });
+      return;
+    }
+
+    // 위 모든 경우 아닐 경우 = 유효하지 않은 계정
+    alert('이메일 또는 비밀번호를 확인해주세요.');
   };
 
   return (
     <div className={styles.Login}>
-      <form className={styles.login_form} onSubmit={handleSubmitLogin}>
+      <form onSubmit={handleSubmitLogin} className={styles.login_form}>
         <img
-          className={styles.instagram_logo}
-          src="images/instagram_logo.png
-      "
+          src="images/instagram_logo.png"
           alt="instagram_text_logo"
+          className={styles.instagram_logo}
         />
         <div className={styles.input_wrapper}>
-          {/* Email */}
           <input
-            ref={emailRef}
-            className={cx(styles.email_input, {
-              [styles.invalid]: emailState !== '' && !emailValid,
-            })}
-            // emailState가 비어있지 않고 emailValid가 true일 때 className = invalid
+            onChange={handleChangeEmail}
+            onFocus={handleEmailFocus}
+            onBlur={handleEmailFocus}
+            placeholder={EMAIL_PLACEHOLDER}
             type="email"
-            name="email"
-            value={emailState}
-            onChange={handleEmail}
-            onBlur={validateEmail}
-            placeholder="전화번호, 사용자 이름 또는 이메일"
+            className={cx(styles.input, {
+              [styles.invalid]: emailState !== '' && !emailValid && !emailFocus,
+            })} // 기본 className: input, emailState가 빈문자열이 아니고 emailValid가 true이고❓ emailFocus가 true일 경우: inValid
           />
 
           {/* Password */}
           <input
-            ref={passwordRef}
-            className={cx(styles.pwd_input)}
-            type="password"
-            name="password"
-            value={pwdState}
-            onChange={handlePwd}
-            onFocus={() => {}} // focus상태일 때 valid검사
-            onBlur={validatePwd}
+            onChange={handleChangePwd}
+            onFocus={handlePwdFocus}
+            onBlur={handlePwdFocus}
             placeholder="비밀번호"
+            type="password"
+            className={cx(styles.input, {
+              [styles.invalid]: pwdState !== '' && !pwdValid && !pwdFocus,
+            })}
           />
         </div>
 
-        <button className={styles.login_btn}>로그인</button>
+        <button
+          type="submit"
+          className={cx(styles.login_btn, {
+            [styles.valid_login_btn]: emailValid && pwdValid,
+          })}
+          // 기본 className: loginBtn, emailValid와 pwdValid가 둘다 false일 때❓: validLoginBtn
+        >
+          로그인
+        </button>
 
         <div className={styles.forgot_pw}>비밀번호를 잊으셨나요?</div>
       </form>

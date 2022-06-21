@@ -31,8 +31,7 @@
   object-fit: contain;
 }
 
-.email_input,
-.pwd_input {
+.input {
   border: 1px solid #e5e5e5;
   border-radius: 5px;
   background-color: #fafafa;
@@ -52,47 +51,20 @@
   padding: 10px;
 }
 
-/* input:focus {
-  border: 1px solid #e5e5e5;
-  border-radius: 5px;
-  background-color: #fafafa;
-  width: 300px;
-  height: 40px;
-  margin: 5px;
-  padding: 10px;
-
-  border: 2px solid red;
-}
-
-input:blur {
-  border: 1px solid #e5e5e5;
-  border-radius: 5px;
-  background-color: #fafafa;
-  width: 300px;
-  height: 40px;
-  margin: 5px;
-  padding: 10px;
-} */
-
 .login_btn {
   width: 300px;
   height: 40px;
   margin: 10px 5px;
   padding: 10px;
-  background-color: #c3e0fa;
+  background-color: #4193ef;
   color: white;
   border-radius: 5px;
-  cursor: pointer;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
-.valid_btn_login {
-  width: 300px;
-  height: 40px;
-  margin: 10px 5px;
-  padding: 10px;
-  background-color: #1e4371;
-  color: white;
-  border-radius: 5px;
+.valid_login_btn {
   cursor: pointer;
+  opacity: 1;
 }
 
 .forgot_pw {
