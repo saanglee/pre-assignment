@@ -2,15 +2,23 @@
 
 # 소개
 
-포트폴리오 pdf
+Portfolio:
+[frontend-portfolio-draft2-1.pdf](https://github.com/saanglee/pre-assignment/files/8957454/frontend-portfolio-draft2-1.pdf)
 
 # 데모
+
+https://pre-assignment.vercel.app/
 
 # 사용 기술 스택
 
 - JavaScript
 - React
 - SCSS
+
+## 라이브러리
+
+- store
+- classnames
 
 <br>
 
@@ -95,6 +103,8 @@
 # 구현 세부설명
 
 ## Login/Logoout
+
+![login_50pecent](https://user-images.githubusercontent.com/92660097/175022608-fd2904c5-ee58-45c4-a2b0-fb151086cf0f.gif)
 
 ### 로그인 유효성 검사
 
@@ -200,6 +210,10 @@ return (
 - 내용 더 보기 & 간략하게 보기 토글 버튼
 ```
 
+![show_more](https://user-images.githubusercontent.com/92660097/175023791-45e536af-43d1-45e1-bcca-650cf20e6b38.gif)
+
+![lazy_loading2](https://user-images.githubusercontent.com/92660097/175023506-8285aced-0920-4252-879f-6e3486a87ecc.gif)
+
 - Main페이지에서 prop으로 받아온 name, content, image를 사용합니다.
 - CommentList컴포넌트와 Commnet컴포넌트를 자식 컴포넌트로 갖으며 피드 하단에서 렌더링합니다.
 - 피드 이미지의 로딩을 구현하는 부분은 intersection observer을 사용하여 lazy loading을 시키는 방법을 사용했습니다. 메인 페이지로 들어와 피드 컴포넌트가 렌더링 될 때 피드 이미지가 로딩되기 전에 place holder 이미지가 먼저 렌더링되고, 로딩이 완료 된 후 이미지를 렌더링 합니다.
@@ -237,6 +251,8 @@ return (
 - 댓글 개수 표시
 ```
 
+![writing_comment](https://user-images.githubusercontent.com/92660097/175023548-bbee6738-2df7-40ab-b949-4f20252d5354.gif)
+
 - Comment와 CommentList의 부모 컴포넌트인 Feed 컴포넌트에서 Comment state를 관리하고 댓글 추가, 삭제 (onCreate, onRemove) 함수를 관리합니다.
 
 <br>
@@ -250,31 +266,37 @@ return (
 - 반응형 input
 ```
 
+![routing2](https://user-images.githubusercontent.com/92660097/175024349-6b695755-654e-49df-91f5-ff85e65f1306.gif)
+
 ### Header의 로그인, 로그아웃 버튼
 
-**구현 시행착오**
+**👩‍💻시행착오**
 
-컴포넌트를 만들 초반에, Login컴포넌트에서 useNavigate Hook을 이용해 Main컴포넌트로 라우팅 하며 state값을 보내는 구조로 구현을 했었음
+처음에 아래와 같은 구조로, Login컴포넌트에서 Main컴포넌트로 useNavigate Hook을 이용해 라우팅 하며 state값을 보내는 방식으로 구현을 했었습니다.
+<img width="714" alt="image" src="https://user-images.githubusercontent.com/92660097/175020298-9bc2f94e-8455-42a6-bc84-7686b18e85c6.png">
 
 ```jsx
+// useNavigate
 navigate('main', {
   state: { email: emailState, pwd: pwdState, isLoggedIn: true },
 });
 ```
 
-<img width="714" alt="image" src="https://user-images.githubusercontent.com/92660097/175020298-9bc2f94e-8455-42a6-bc84-7686b18e85c6.png">
+이렇게 컴포넌트 구조를 설계하니, Login컴포넌트에서 Header컴포넌트로 로그인 값을 바로 보내지 못하는 문제가 발생했습니다.
 
-이렇게 컴포넌트 구조를 설계하니 Login컴포넌트에서 Header컴포넌트로 로그인 값을 바로 보내지 못하는 문제가 발생
+**< 💡 생각했던 해결 방안 >**
 
-< 💡 생각했던 해결 방안 >
+1. Login 컴포넌트와 Main 컴포넌트 밑으로 각각 Header 컴포넌트를 넣는다. 그리고 props를 통해 Header 컴포넌트로 로그인 상태값을 전달한다.
+2. useContext Hook 또는 Recoil과 같은 상태관리 라이브러리를 사용한다.
+3. Layout 컴포넌트를 만들어 그 안으로 Header 컴포넌트를 넣는다. 그리고 App 컴포넌트에서 Header Route 안으로 Login과 Main 컴포넌트가 오도록 한다.
 
-1. Login컴포넌트와 Main컴포넌트 각각의 밑으로 Header 컴포넌트를 두어서 props로 로그인 상태값을 전달한다.
-2. useContext Hook이나 Recoil과 같은 상태관리 라이브러리를 사용한다.
-3. Layout컴포넌트를 추가해 그 안으로 헤더, 그리고 헤더 Route 안으로 Login과 Main 컴포넌트가 오도록 한다.
+➡️ 3번 방법을 선택하여 해결 💡
 
-➡️ 3번 방법을 선택해서 해결
+<img width="461" alt="image" src="https://user-images.githubusercontent.com/92660097/175020992-8e6e4c0d-2b04-4172-ab92-a062a4465954.png">
 
-(컴포넌트 구조 이미지2)
+<br>
+
+_Layout 컴포넌트_
 
 ```jsx
 const Layout = () => {
@@ -288,6 +310,8 @@ const Layout = () => {
   );
 };
 ```
+
+_App 컴포넌트_
 
 ```jsx
 function App() {
@@ -303,23 +327,22 @@ function App() {
 }
 ```
 
-위와 같은 구조로 변경해서 Header에서도 Login 컴포넌트 useNavigate Hook의 state값에 접근할 수 있게됨
+위와 같은 구조로 변경하여 Header 컴포넌트에서도 Login 컴포넌트의 useNavigate Hook 내부 state값에 접근할 수 있도록 하였습니다.
+
+- useLocation을 사용해서 state값에 접근하고 email과 isLoggedIn값을 가져옵니다.
+- handleLogOutBtn 함수에서 가져온 email값을 이용해 local storage(`userList`)에서 해당 email값을 삭제합니다.
+
+```jsx
+  const location = useLocation();
+
+  const userState = location.state || { email: '', pwd: '', isLoggedIn: false };
+
+  const { email, isLoggedIn } = userState;
+
+  const handleLogOutBtn = () => {
+    const newUserList = userList.filter((user) => user.email !== email);
+    store.set(USER_LIST, newUserList);
+    navigate('/');
+```
 
 <br>
-<br>
-<br>
-<br>
-
----
-
-로그인 -> 메인으로 navigate하면서 email pwd정보 같이 보냄
-헤더: 로그인 -> 메인에서 받은 email정보 가져와야 함
-로그인 -> 메인 -> 헤더로 email정보 이동됨
-헤더에서 로그아웃 버튼 클릭 시 메인으로부터 받은 email과 localStorage에 있는 email 일치 여부 확인 후 일치하는 email 계정 (+pwd) 삭제한 뒤, login페이지로 navigate함
-
-로그인 상태인데 /에 접근하려고 할 경우 main으로 redirect 함
-로그인 상태 전 OR 로그아웃 버튼 눌렀을 경우만 /로 이동
-
-useContext사용 시
-App 컴포넌트에서 Header, Login, Main모두 관리
-Login의 email state와 login state(true/false)를 Header와 Main페이지로 보냄
