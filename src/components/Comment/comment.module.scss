@@ -5,24 +5,22 @@
 
 .CommentList p {
   color: #929292;
-  margin: 10px 0;
+  font-size: 14px;
 }
-.CommentList li {
-  margin: 10px;
-}
-
 .CommentList ul {
+  padding-top: 5px;
   display: flex;
   justify-content: space-between;
 }
 .CommentList button {
   color: #929292;
   background-color: transparent;
+  cursor: pointer;
 }
 
 .Comment {
   width: 100%;
-  padding: 10px;
+  padding: 0 10px;
   border-top: 1px solid #dbdbdb;
   height: 50px;
 
@@ -32,24 +30,22 @@
 }
 
 .Comment input {
-  border-top: 1px solid #dbdbdb;
   height: 50px;
-  padding: 10px;
-  display: flex;
-  width: 90%;
+  width: 400px;
+  padding: 5px;
 }
 .Comment button {
   color: #4193ef;
-  font-size: 16px;
   background-color: transparent;
   cursor: pointer;
 }
 
-@media (max-width: 800px) {
-  .Comment button {
-    font-size: 12px;
-  }
+.icon {
+  width: 22px;
+  cursor: pointer;
+}
 
+@media (max-width: 800px) {
   .Comment input {
     width: 230px;
   }

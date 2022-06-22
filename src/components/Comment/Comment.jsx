@@ -1,17 +1,19 @@
 import React, { useState, useRef } from 'react';
+import { SmileIcon } from '../../assets/index.js';
 
 import styles from './comment.module.scss';
 
 const Comment = ({ onCreate }) => {
-  const commentInput = useRef();
+  const commentRef = useRef();
   const [comment, setComment] = useState('');
+  const smileIcon = <SmileIcon />;
 
   const handleChangeState = (e) => {
     setComment(e.target.value);
   };
   const handleSubmit = () => {
     if (comment.length < 1) {
-      commentInput.current.focus();
+      commentRef.current.focus();
       return;
     }
     onCreate(comment);
@@ -25,7 +27,9 @@ const Comment = ({ onCreate }) => {
 
   return (
     <section className={styles.Comment} onKeyPress={handleKeyPress}>
+      <span className={styles.icon}>{smileIcon}</span>
       <input
+        ref={commentRef}
         type="text"
         value={comment}
         onChange={handleChangeState}
