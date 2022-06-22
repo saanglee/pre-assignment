@@ -1,19 +1,18 @@
 import React, { useState, useRef } from 'react';
 import { Route, Routes } from 'react-router-dom';
-
-import Login from './pages/Login';
-import Header from './components/Header/Header';
-import Main from './components/Main/Main';
+import Layout from './Layout';
+import Login from './pages/Login/Login';
+import Main from './pages/Main/Main';
 
 function App() {
   return (
-    <div>
-      <Header />
-      <Routes>
+    // <Header />
+    <Routes>
+      <Route path="/" element={<Layout />}>
         <Route path="/" element={<Login />} />
         <Route path="main" element={<Main />} />
-      </Routes>
-    </div>
+      </Route>
+    </Routes>
   );
 }
 
