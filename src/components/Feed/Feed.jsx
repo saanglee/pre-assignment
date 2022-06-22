@@ -1,22 +1,30 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 
-import { BookMarkIcon } from '../../assets/index.js';
-import { CommentIcon } from '../../assets/index.js';
-import { DotsIcon } from '../../assets/index.js';
-import { LikeIcon } from '../../assets/index.js';
-import { ShareIcon } from '../../assets/index.js';
-import { SmileIcon } from '../../assets/index.js';
-
+import {
+  BookMarkIcon,
+  CommentIcon,
+  DotsIcon,
+  LikeIcon,
+  ShareIcon,
+} from '../../assets/index.js';
 import Comment from '../Comment/Comment';
 import CommentList from '../Comment/CommentList';
+import Image from '../Image.jsx';
 
 import styles from './feed.module.scss';
 
-const Feed = ({ id, name, img, content }) => {
-  // let test = JOSN.parse(img);
-  // console.log('FEED: ', test);
+const Feed = ({ name, image, content }) => {
   const commentId = useRef(0);
+  const wordLimit = useRef(30);
+
   const [comments, setComments] = useState([]);
+  const [isShowMore, setIsShowMore] = useState(false);
+
+  const bookMarkIcon = <BookMarkIcon />;
+  const commentIcon = <CommentIcon />;
+  const dotsIcon = <DotsIcon />;
+  const likeIcon = <LikeIcon />;
+  const shareIcon = <ShareIcon />;
 
   const onCreate = (comment) => {
     const newItem = {
@@ -32,40 +40,54 @@ const Feed = ({ id, name, img, content }) => {
     setComments(newCommentList);
   };
 
-  const bookMarkIcon = <BookMarkIcon />;
-  const commentIcon = <CommentIcon />;
-  const dotsIcon = <DotsIcon />;
-  const likeIcon = <LikeIcon />;
-  const shareIcon = <ShareIcon />;
-  const smileIcon = <SmileIcon />;
+  const ShowMoreContent = useMemo(() => {
+    const LessContent = content.slice(0, wordLimit.current);
+    if (content.length > wordLimit.current) {
+      if (isShowMore) {
+        return content;
+      }
+      return LessContent;
+    }
+    return content;
+  }, [isShowMore]);
 
   return (
     <article className={styles.Feed}>
       <header className={styles.feed_header}>
         <div className={styles.profile_wrapper}>
           <span className={styles.profile_img}></span>
-          <span className={styles.profile_name}>{name}</span>
+          <span className={styles.name}>{name}</span>
         </div>
-        <div>...</div>
+        <span className={styles.icon}>{dotsIcon}</span>
       </header>
 
-      <section>
-        {/* TODO: 피드 이미지 넣기  */}
-        <img src={`${process.env.PUBLIC_URL}/${img}`} alt="" />
+      <section className={styles.image_wrapper}>
+        <Image src={image} className={styles.image} />
       </section>
-      <div className={styles.feed_menus}>
-        {/* TODO: icon 넣기 */}
-        <div>like, comment, share</div>
-        <div className={styles.icons}>{bookMarkIcon}</div>
-      </div>
-      <section className={styles.feed_content}>
-        <div>좋아요 0개</div>
-        <span className={styles.profile_name}>{name}</span>
-        <span className={styles.content}>{content}</span>
+
+      <section className={styles.contents}>
+        <div className={styles.icons_wrapper}>
+          <div className={styles.icons}>
+            <span className={styles.icon}>{likeIcon}</span>
+            <span className={styles.icon}>{commentIcon}</span>
+            <span className={styles.icon}>{shareIcon}</span>
+          </div>
+          <span className={styles.bookmark}>{bookMarkIcon}</span>
+        </div>
+        <span className={styles.likes}>좋아요 0개</span>
+        <section className={styles.content}>
+          <span className={styles.name}>{name}</span>
+          <span>{ShowMoreContent}</span>
+          <button
+            onClick={() => setIsShowMore((current) => !current)}
+            className={styles.content_btn}
+          >
+            {content.length > wordLimit.current &&
+              (isShowMore ? '[간략하게]' : '...더 보기')}
+          </button>
+        </section>
       </section>
-      <section>
-        <CommentList commentList={comments} onRemove={onRemove} />
-      </section>
+      <CommentList commentList={comments} onRemove={onRemove} />
       <Comment onCreate={onCreate} />
     </article>
   );
