@@ -4,6 +4,8 @@
 
 👩‍💻 Portfolio: [fe_portfolio.pdf](https://github.com/saanglee/pre-assignment/files/8957588/fe_portfolio.pdf)
 
+📝 velog short essay: https://velog.io/@sanglee/%EC%9B%90%ED%8B%B0%EB%93%9C-%ED%94%84%EB%A6%AC%EC%98%A8%EB%B3%B4%EB%94%A9-%EC%BD%94%EC%8A%A4
+
 # 데모
 
 🚀 https://pre-assignment.vercel.app/
@@ -172,7 +174,7 @@
 **Local Storage**
 
 - 이메일, 비밀번호를 저장하는 local storage의 키값은 userList입니다.
-- useMemo Hook을 이용해 local storage에 새로운 계정이 추가될 때에만 업데이트 되도록 최적화해두었습니다. ?
+- useMemo Hook을 이용해 local storage에 새로운 계정이 추가될 때에만 업데이트 되도록 최적화해두었습니다.
 - 로그인 버튼을 클릭하면 handleSubmitLogin함수가 호출됩니다. handleSubmitLogin함수에서 local storage의 계정정보와 로그인 상태 값을 업데이트 합니다.
 
 **아래는 local storage에 email, pwd, isLoggedIn 값이 저장되는 경우입니다.**
@@ -262,6 +264,7 @@ return (
 - 내용 더 보기 & 간략하게 보기 토글 버튼
 ```
 
+_lazy loading: 개발자도구 Network탭 `slow 3G` 적용 화면_
 ![lazy_loading2](https://user-images.githubusercontent.com/92660097/175023506-8285aced-0920-4252-879f-6e3486a87ecc.gif)
 
 - Main페이지에서 prop으로 받아온 name, content, image를 사용합니다.
@@ -403,9 +406,9 @@ function App() {
 
 - 이전에 배웠던 부분을 복습하며 리마인드 하는 계기가 되었습니다. 텍스트를 추가하고 삭제하는 기능, fetch 메서드를 이용해 데이터를 가져오는 기능, 그리고 html 태그를 의미에 맞게 사용하는 방법 등 배웠던 내용을 이번 과제에 적용시키며 조금씩 다른 방식으로 응용해볼 수 있었습니다.
 
-## 아쉬운 점
+## 아쉬운 점 😂
 
-- 코드를 더 깔끔하게 작성하고 중복 코드를 최대한 줄일 수 있는 방법에 대해 더 공부해야 겠다는 생각이 많이 들었습니다.
+- 코드를 더 깔끔하게 작성하고 중복 코드를 최대한 줄일 수 있는 방법에 대해 더 고민하고, 더 공부해야겠다는 생각이 많이 들었습니다.
 
 <br>
 
@@ -415,10 +418,14 @@ function App() {
 
 # 그 외
 
-### 댓글 삭제 버튼
+### 모바일 화면
 
-![remove_comment](https://user-images.githubusercontent.com/92660097/175035445-e5152ba2-442e-4e74-8435-0a3ba1f65d89.gif)
+![mobile](https://user-images.githubusercontent.com/92660097/175043323-77dbf99c-9f0c-497c-adb4-bacc6d1d84cb.gif)
 
 ### 내용 더보기 토글
 
 ![show_more](https://user-images.githubusercontent.com/92660097/175023791-45e536af-43d1-45e1-bcca-650cf20e6b38.gif)
+
+### 댓글 삭제 버튼
+
+![remove_comment](https://user-images.githubusercontent.com/92660097/175035445-e5152ba2-442e-4e74-8435-0a3ba1f65d89.gif)
