@@ -2,14 +2,13 @@
 
 # 소개
 
-Portfolio:
-[frontend-portfolio-draft2-1.pdf](https://github.com/saanglee/pre-assignment/files/8957454/frontend-portfolio-draft2-1.pdf)
+👩‍💻 Portfolio: [fe_portfolio.pdf](https://github.com/saanglee/pre-assignment/files/8957588/fe_portfolio.pdf)
 
 # 데모
 
-https://pre-assignment.vercel.app/
+🚀 https://pre-assignment.vercel.app/
 
-# 사용 기술 스택
+# 사용 기술 스택 🛠
 
 - JavaScript
 - React
@@ -22,11 +21,58 @@ https://pre-assignment.vercel.app/
 
 <br>
 
-# 디렉토리 구조
+# 디렉토리 구조 📂
+
+### src
+
+```
+├── App.js
+├── Layout.jsx
+├── assets
+├── components
+│   ├── Comment
+│   │   ├── Comment.jsx
+│   │   ├── CommentList.jsx
+│   │   └── comment.module.scss
+│   ├── Feed
+│   │   ├── Feed.jsx
+│   │   └── feed.module.scss
+│   ├── Header
+│   │   ├── Header.jsx
+│   │   └── header.module.scss
+│   └── Image.jsx
+├── index.js
+├── pages
+│   ├── Login
+│   │   ├── Login.jsx
+│   │   └── login.module.scss
+│   ├── Main
+│   │   ├── Main.jsx
+│   │   └── main.module.scss
+│   └── PreAssignmentGuide.jsx
+└── styles
+    └── globalStyles.js
+```
+
+### public
+
+```
+├── data
+│   └── data.json
+├── images
+│   ├── Bom.jpg
+│   ├── Cat1.jpg
+│   ├── Cat2.jpg
+│   ├── Cat3.jpg
+│   └── Janggun.jpg
+├── index.html
+├── instagram_favicon.ico
+└── manifest.json
+```
 
 <br>
 
-# 구현 완료 목록
+# < 구현 완료 목록 >
 
 ## ✔️ 로그인 페이지
 
@@ -100,13 +146,13 @@ https://pre-assignment.vercel.app/
 
 ---
 
-# 구현 세부설명
+# < 구현 세부설명 >
 
 ## Login/Logoout
 
-![login_50pecent](https://user-images.githubusercontent.com/92660097/175022608-fd2904c5-ee58-45c4-a2b0-fb151086cf0f.gif)
-
 ### 로그인 유효성 검사
+
+![login_50pecent](https://user-images.githubusercontent.com/92660097/175022608-fd2904c5-ee58-45c4-a2b0-fb151086cf0f.gif)
 
 **유효성 검사 조건**
 
@@ -121,7 +167,7 @@ https://pre-assignment.vercel.app/
 - ❗️입력 중에 border 색이 변경되는 것이 사용자 경험 측면에서 좋은 경우가 아니라고 판단했습니다.
 - ✅ onFocus, onBlur이벤트를 이용하여 focus상태가 아닐 경우, 그리고 validate함수를 통과하지 못한 경우에만 border색이 변경되도록 했습니다.
 
-### 로그인버튼 클릭 후
+### 로그인버튼 클릭 후 로직
 
 **Local Storage**
 
@@ -160,6 +206,12 @@ https://pre-assignment.vercel.app/
 <br>
 
 ## Main
+
+```
+< 역할 >
+- public/data 디렉토리의 data.json에 fetch를 이용하여 data를 요청
+- Feed 렌더링
+```
 
 - getData함수에서 fetch요청을 통해 data.json로부터 Feed에 들어갈 데이터를 가져옵니다.
 - useEffect Hook을 사용해 getData함수는 렌더링 시 한번만 호출되도록 했습니다.
@@ -209,8 +261,6 @@ return (
 - Image lazy loading
 - 내용 더 보기 & 간략하게 보기 토글 버튼
 ```
-
-![show_more](https://user-images.githubusercontent.com/92660097/175023791-45e536af-43d1-45e1-bcca-650cf20e6b38.gif)
 
 ![lazy_loading2](https://user-images.githubusercontent.com/92660097/175023506-8285aced-0920-4252-879f-6e3486a87ecc.gif)
 
@@ -346,3 +396,29 @@ function App() {
 ```
 
 <br>
+
+# 마무리
+
+- 구현 하면서 부족한 점을 많이 느꼈습니다. 특히 login 후에 local storage에 저장된 정보를 이용하는 (로그인,로그아웃 버튼 등) 방식이나 intersection observer을 사용하여 lazy loading을 구현하는 것, svg파일 아이콘을 리액트 컴포넌트로 사용하는 방법 등 이번 과제를 수행하면서 새롭게 익히고 구현해보는 것들이 많이 있었습니다.
+
+- 이전에 배웠던 부분을 복습하며 리마인드 하는 계기가 되었습니다. 텍스트를 추가하고 삭제하는 기능, fetch 메서드를 이용해 데이터를 가져오는 기능, 그리고 html 태그를 의미에 맞게 사용하는 방법 등 배웠던 내용을 이번 과제에 적용시키며 조금씩 다른 방식으로 응용해볼 수 있었습니다.
+
+## 아쉬운 점
+
+- 코드를 더 깔끔하게 작성하고 중복 코드를 최대한 줄일 수 있는 방법에 대해 더 공부해야 겠다는 생각이 많이 들었습니다.
+
+<br>
+
+---
+
+<br>
+
+# 그 외
+
+### 댓글 삭제 버튼
+
+![remove_comment](https://user-images.githubusercontent.com/92660097/175035445-e5152ba2-442e-4e74-8435-0a3ba1f65d89.gif)
+
+### 내용 더보기 토글
+
+![show_more](https://user-images.githubusercontent.com/92660097/175023791-45e536af-43d1-45e1-bcca-650cf20e6b38.gif)
