@@ -1,5 +1,9 @@
 # wanted_pre_onboarding_assignment
 
+# 소개
+
+포트폴리오 pdf
+
 # 데모
 
 # 사용 기술 스택
@@ -117,9 +121,9 @@
 
 **아래는 local storage에 email, pwd, isLoggedIn 값이 저장되는 경우입니다.**
 
-1.  userList가 빈 값일 경우: 새로운 사용자이므로 email, pwd, isLoggedIn: true를 저장 후 메인페이지로 이동합니다.
+1. userList가 빈 값일 경우: 새로운 사용자이므로 email, pwd, isLoggedIn: true를 저장 후 메인페이지로 이동합니다.
 
-2.  . userList가 비어있지 않은 경우: userList에 존재하는 이메일인 지 확인합니다.
+2. userList가 비어있지 않은 경우: userList에 존재하는 이메일인 지 확인합니다.
 
 - 2-1. targetUser가 undefined인 경우: 새로운 사용자이므로 email, pwd, isLoggedIn: true를 저장 후 메인페이지로 이동합니다.
 - 2-2. targetUser의 email과 pwd가 userList에 존재하는 정보와 일치하는 경우: 기존 사용자 이므로 메인페이지로 이동합니다.
@@ -234,11 +238,72 @@ return (
 ```
 
 - Comment와 CommentList의 부모 컴포넌트인 Feed 컴포넌트에서 Comment state를 관리하고 댓글 추가, 삭제 (onCreate, onRemove) 함수를 관리합니다.
--
 
 <br>
 
 ## Header
+
+```
+< 기능 >
+- 로고 클릭 시 main페이지로 이동
+- 로그인, 로그아웃 버튼 전환
+- 반응형 input
+```
+
+### Header의 로그인, 로그아웃 버튼
+
+**구현 시행착오**
+
+컴포넌트를 만들 초반에, Login컴포넌트에서 useNavigate Hook을 이용해 Main컴포넌트로 라우팅 하며 state값을 보내는 구조로 구현을 했었음
+
+```jsx
+navigate('main', {
+  state: { email: emailState, pwd: pwdState, isLoggedIn: true },
+});
+```
+
+<img width="714" alt="image" src="https://user-images.githubusercontent.com/92660097/175020298-9bc2f94e-8455-42a6-bc84-7686b18e85c6.png">
+
+이렇게 컴포넌트 구조를 설계하니 Login컴포넌트에서 Header컴포넌트로 로그인 값을 바로 보내지 못하는 문제가 발생
+
+< 💡 생각했던 해결 방안 >
+
+1. Login컴포넌트와 Main컴포넌트 각각의 밑으로 Header 컴포넌트를 두어서 props로 로그인 상태값을 전달한다.
+2. useContext Hook이나 Recoil과 같은 상태관리 라이브러리를 사용한다.
+3. Layout컴포넌트를 추가해 그 안으로 헤더, 그리고 헤더 Route 안으로 Login과 Main 컴포넌트가 오도록 한다.
+
+➡️ 3번 방법을 선택해서 해결
+
+(컴포넌트 구조 이미지2)
+
+```jsx
+const Layout = () => {
+  return (
+    <div>
+      <Header />
+      <main>
+        <Outlet />
+      </main>
+    </div>
+  );
+};
+```
+
+```jsx
+function App() {
+  return (
+    // <Header />
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Login />} />
+        <Route path="main" element={<Main />} />
+      </Route>
+    </Routes>
+  );
+}
+```
+
+위와 같은 구조로 변경해서 Header에서도 Login 컴포넌트 useNavigate Hook의 state값에 접근할 수 있게됨
 
 <br>
 <br>
