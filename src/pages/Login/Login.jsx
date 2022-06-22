@@ -94,8 +94,8 @@ const Login = () => {
     alert('비밀번호를 확인해주세요.');
   };
 
-  const userState = location.state || { email: '', pwd: '', isLoggedIn: false };
-  const { email, pwd, isLoggedIn } = userState;
+  // const userState = location.state || { email: '', pwd: '', isLoggedIn: false };
+  // const { email, pwd, isLoggedIn } = userState;
 
   return (
     <div className={styles.Login}>
