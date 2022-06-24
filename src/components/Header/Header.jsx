@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 
 import {
@@ -8,31 +8,34 @@ import {
   CompassIcon,
 } from '../../assets/index.js';
 import logo from '../../assets/instagram_logo_small.png';
+import { useRecoilState } from 'recoil';
+import { USER_LIST, userList } from '../../userList.js';
 
-import store from 'store';
 import styles from './header.module.scss';
-
-const USER_LIST = 'userList';
+import store from 'store';
 
 const Header = () => {
-  const navigate = useNavigate();
-  const localStorageUserList = store.get(USER_LIST) || [];
-
   const homeIcon = <HomeIcon />;
   const likeIcon = <LikeIcon />;
   const shareIcon = <ShareIcon />;
   const compassIcon = <CompassIcon />;
 
-  const userList = useMemo(() => {
-    return localStorageUserList;
-  }, [localStorageUserList]);
-
+  const navigate = useNavigate();
   const location = useLocation();
+
+  const [userListState, setUserListState] = useRecoilState(userList);
+
+  useEffect(() => {
+    setUserListState(userListState);
+  }, userListState);
+  console.log('setuserListState(Header)');
+
   const userState = location.state || { email: '', pwd: '', isLoggedIn: false };
+
   const { email, isLoggedIn } = userState;
 
   const handleLogOutBtn = () => {
-    const newUserList = userList.filter((user) => user.email !== email);
+    const newUserList = userListState.filter((user) => user.email !== email);
     store.set(USER_LIST, newUserList);
     navigate('/');
   };

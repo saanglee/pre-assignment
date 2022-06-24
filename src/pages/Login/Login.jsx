@@ -1,24 +1,25 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 
 import logo from '../../assets/instagram_logo.png';
 
 import cx from 'classnames';
 import store from 'store';
 import styles from './login.module.scss';
+import { USER_LIST, userList } from '../../userList';
 
-const USER_LIST = 'userList';
 const EMAIL_PLACEHOLDER = '전화번호, 사용자 이름 또는 이메일';
 const PWD_PLACEHOLDER = '비밀번호';
 
 const Login = () => {
+  const [userListState, setUserListState] = useRecoilState(userList);
+
   const navigate = useNavigate();
 
-  const localStorageUserList = store.get(USER_LIST) || [];
-
-  const userList = useMemo(() => {
-    return localStorageUserList;
-  }, [localStorageUserList]);
+  useEffect(() => {
+    setUserListState(userListState);
+  }, userListState);
 
   const [emailState, setEmailState] = useState('');
   const [emailValid, setEmailValid] = useState(false);
@@ -67,7 +68,7 @@ const Login = () => {
     if (!userList.length) {
       store.set(USER_LIST, [{ email: emailState, pwd: pwdState }]);
       navigate('main', {
-        state: { email: emailState, pwd: pwdState, isLoggedIn: true },
+        state: { email: emailState, isLoggedIn: true },
       });
       return;
     }
@@ -77,7 +78,7 @@ const Login = () => {
     if (targetUser === undefined) {
       store.set(USER_LIST, [{ email: emailState, pwd: pwdState }, ...userList]);
       navigate('main', {
-        state: { email: emailState, pwd: pwdState, isLoggedIn: true },
+        state: { email: emailState, isLoggedIn: true },
       });
       return;
     }
@@ -86,16 +87,13 @@ const Login = () => {
       targetUser.email === emailState && targetUser.pwd === pwdState;
     if (validUser) {
       navigate('main', {
-        state: { email: emailState, pwd: pwdState, isLoggedIn: true },
+        state: { email: emailState, isLoggedIn: true },
       });
       return;
     }
 
     alert('비밀번호를 확인해주세요.');
   };
-
-  // const userState = location.state || { email: '', pwd: '', isLoggedIn: false };
-  // const { email, pwd, isLoggedIn } = userState;
 
   return (
     <div className={styles.Login}>

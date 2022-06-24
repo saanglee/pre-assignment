@@ -12,6 +12,7 @@ import CommentList from '../Comment/CommentList';
 import Image from '../Image.jsx';
 
 import styles from './feed.module.scss';
+import store from 'store';
 
 const Feed = ({ name, image, content }) => {
   const commentId = useRef(0);
