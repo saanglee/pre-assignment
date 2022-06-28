@@ -1,5 +1,7 @@
-import React, { useEffect } from 'react';
-import { useLocation, Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { USER_LIST, userList, email, login, getId } from '../../user';
 
 import {
   HomeIcon,
@@ -8,13 +10,13 @@ import {
   CompassIcon,
 } from '../../assets/index.js';
 import logo from '../../assets/instagram_logo_small.png';
-import { useRecoilState } from 'recoil';
-import { USER_LIST, userList } from '../../userList.js';
 
 import styles from './header.module.scss';
 import store from 'store';
 
 const Header = () => {
+  const navigate = useNavigate();
+
   const homeIcon = <HomeIcon />;
   const likeIcon = <LikeIcon />;
   const shareIcon = <ShareIcon />;
