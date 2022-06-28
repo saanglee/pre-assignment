@@ -1,7 +1,6 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useRecoilValue, useRecoilState } from 'recoil';
-import { USER_LIST, userList, email, login } from '../../user.js';
+import React, { useEffect } from 'react';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
+
 import {
   HomeIcon,
   LikeIcon,
@@ -9,13 +8,13 @@ import {
   CompassIcon,
 } from '../../assets/index.js';
 import logo from '../../assets/instagram_logo_small.png';
+import { useRecoilState } from 'recoil';
+import { USER_LIST, userList } from '../../userList.js';
 
-import store from 'store';
 import styles from './header.module.scss';
+import store from 'store';
 
 const Header = () => {
-  const navigate = useNavigate();
-
   const homeIcon = <HomeIcon />;
   const likeIcon = <LikeIcon />;
   const shareIcon = <ShareIcon />;
@@ -32,6 +31,7 @@ const Header = () => {
     console.log('handleLogoutBtn emailState: ', emailState);
     console.log('handleLogoutBtn newUserList: ', newUserList);
     setUserListState(newUserList);
+
     store.set(USER_LIST, newUserList);
     setIsLoggedIn(false);
     navigate('/');
