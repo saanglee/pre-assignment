@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
-import { useLocation, Link, useNavigate } from 'react-router-dom';
-
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { USER_LIST, userList, email, login } from '../../user.js';
 import {
   HomeIcon,
   LikeIcon,
@@ -8,35 +9,31 @@ import {
   CompassIcon,
 } from '../../assets/index.js';
 import logo from '../../assets/instagram_logo_small.png';
-import { useRecoilState } from 'recoil';
-import { USER_LIST, userList } from '../../userList.js';
 
-import styles from './header.module.scss';
 import store from 'store';
+import styles from './header.module.scss';
 
 const Header = () => {
+  const navigate = useNavigate();
+
   const homeIcon = <HomeIcon />;
   const likeIcon = <LikeIcon />;
   const shareIcon = <ShareIcon />;
   const compassIcon = <CompassIcon />;
 
-  const navigate = useNavigate();
-  const location = useLocation();
-
   const [userListState, setUserListState] = useRecoilState(userList);
-
-  useEffect(() => {
-    setUserListState(userListState);
-  }, userListState);
-  console.log('setuserListState(Header)');
-
-  const userState = location.state || { email: '', pwd: '', isLoggedIn: false };
-
-  const { email, isLoggedIn } = userState;
+  const emailState = useRecoilValue(email);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(login);
 
   const handleLogOutBtn = () => {
-    const newUserList = userListState.filter((user) => user.email !== email);
+    const newUserList = userListState.filter(
+      (user) => user.email !== emailState
+    );
+    console.log('handleLogoutBtn emailState: ', emailState);
+    console.log('handleLogoutBtn newUserList: ', newUserList);
+    setUserListState(newUserList);
     store.set(USER_LIST, newUserList);
+    setIsLoggedIn(false);
     navigate('/');
   };
 

@@ -2,8 +2,12 @@ import React, { useEffect, useState, useRef } from 'react';
 import Feed from '../../components/Feed/Feed';
 
 import styles from './main.module.scss';
+import store from 'store';
 
 const Main = () => {
+  useEffect(() => {
+    console.log('Main ---> ', store.get('userList'));
+  }, []);
   const [feedData, setFeedData] = useState([]);
   const feedId = useRef(0);
 

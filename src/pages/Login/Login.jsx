@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
+import { USER_LIST, userList, email, login, getId } from '../../user';
 
 import logo from '../../assets/instagram_logo.png';
 
 import cx from 'classnames';
 import store from 'store';
 import styles from './login.module.scss';
-import { USER_LIST, userList } from '../../userList';
 
 const EMAIL_PLACEHOLDER = '전화번호, 사용자 이름 또는 이메일';
 const PWD_PLACEHOLDER = '비밀번호';
 
 const Login = () => {
-  const [userListState, setUserListState] = useRecoilState(userList);
-
+  useEffect(() => {
+    console.log('Login ---> ', store.get(USER_LIST));
+  }, []);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setUserListState(userListState);
-  }, userListState);
+  const userListState = useRecoilValue(userList);
 
-  const [emailState, setEmailState] = useState('');
+  // const [isLoggedInState, setIsLoggedInState] = useRecoilState(login);
+  const setIsLoggedInState = useSetRecoilState(login);
+
+  const [emailState, setEmailState] = useRecoilState(email);
   const [emailValid, setEmailValid] = useState(false);
   const [emailFocus, setEmailFocus] = useState(false);
-
   const [pwdState, setPwdState] = useState('');
   const [pwdValid, setPwdValid] = useState(false);
   const [pwdFocus, setPwdFocus] = useState(false);
@@ -60,35 +61,53 @@ const Login = () => {
     setPwdValid(validatePwd(value));
   };
 
+  // submit
+  // TODO: Refactor
+  // if문들 = 로그인 조건들,
+  // success, faie등 true, false 조작할 수 있는 변수
+  // 함수 : 매개변수로 userList,email..
   const handleSubmitLogin = (e) => {
     e.preventDefault();
 
-    if (!emailValid || !pwdValid) return;
+    if (!emailValid || !pwdValid) return; // Invalid email pwd
 
-    if (!userList.length) {
-      store.set(USER_LIST, [{ email: emailState, pwd: pwdState }]);
-      navigate('main', {
-        state: { email: emailState, isLoggedIn: true },
-      });
+    if (!userListState.length) {
+      // Empty userList
+      store.set(USER_LIST, [
+        { email: emailState, pwd: pwdState, ...userListState },
+      ]);
+
+      navigate('main');
+      setIsLoggedInState(true);
+      // setPwdState('');
+      // setEmailState('');
       return;
     }
 
-    const targetUser = userList.find((user) => user.email === emailState);
+    const targetUser = userListState.find((user) => user.email === emailState);
 
     if (targetUser === undefined) {
-      store.set(USER_LIST, [{ email: emailState, pwd: pwdState }, ...userList]);
-      navigate('main', {
-        state: { email: emailState, isLoggedIn: true },
-      });
+      // New User
+      // falsy값
+      store.set(USER_LIST, [
+        { email: emailState, pwd: pwdState },
+        ...userListState,
+      ]);
+
+      navigate('main');
+      setIsLoggedInState(true);
+      // setPwdState('');
+      // setEmailState('');
       return;
     }
 
     const validUser =
       targetUser.email === emailState && targetUser.pwd === pwdState;
     if (validUser) {
-      navigate('main', {
-        state: { email: emailState, isLoggedIn: true },
-      });
+      navigate('main');
+      setIsLoggedInState(true);
+      // setPwdState('');
+      // setEmailState('');
       return;
     }
 
@@ -105,6 +124,7 @@ const Login = () => {
         />
         <div className={styles.input_wrapper}>
           <input
+            // value={emailState}
             onChange={handleChangeEmail}
             onFocus={handleEmailFocus}
             onBlur={handleEmailFocus}
@@ -116,6 +136,7 @@ const Login = () => {
           />
 
           <input
+            // value={pwdState}
             onChange={handleChangePwd}
             onFocus={handlePwdFocus}
             onBlur={handlePwdFocus}
