@@ -3,21 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
 import { USER_LIST, userList, email, login, getId } from '../../user';
 
-
-
-
 import logo from '../../assets/instagram_logo.png';
 
 import cx from 'classnames';
 import store from 'store';
 import styles from './login.module.scss';
 
-
 const EMAIL_PLACEHOLDER = '전화번호, 사용자 이름 또는 이메일';
 const PWD_PLACEHOLDER = '비밀번호';
 
 const Login = () => {
-
   useEffect(() => {
     console.log('Login ---> ', store.get(USER_LIST));
   }, []);
@@ -30,7 +25,6 @@ const Login = () => {
   useEffect(() => {
     setUserListState(userListState);
   }, userListState);
-
 
   const [emailState, setEmailState] = useRecoilState(email);
   const [emailValid, setEmailValid] = useState(false);
@@ -86,25 +80,24 @@ const Login = () => {
         { email: emailState, pwd: pwdState, ...userListState },
       ]);
 
-<<<<<<< HEAD
       navigate('main');
       setIsLoggedInState(true);
       // setPwdState('');
       // setEmailState('');
-=======
+    }
+
     if (!userList.length) {
       store.set(USER_LIST, [{ email: emailState, pwd: pwdState }]);
       navigate('main', {
         state: { email: emailState, isLoggedIn: true },
       });
->>>>>>> f3b9198786674bdf37fa8639057ac9ec2748664b
+
       return;
     }
 
     const targetUser = userListState.find((user) => user.email === emailState);
 
     if (targetUser === undefined) {
-<<<<<<< HEAD
       // New User
       // falsy값
       store.set(USER_LIST, [
@@ -116,28 +109,27 @@ const Login = () => {
       setIsLoggedInState(true);
       // setPwdState('');
       // setEmailState('');
-=======
+
       store.set(USER_LIST, [{ email: emailState, pwd: pwdState }, ...userList]);
       navigate('main', {
         state: { email: emailState, isLoggedIn: true },
       });
->>>>>>> f3b9198786674bdf37fa8639057ac9ec2748664b
+
       return;
     }
 
     const validUser =
       targetUser.email === emailState && targetUser.pwd === pwdState;
     if (validUser) {
-<<<<<<< HEAD
       navigate('main');
       setIsLoggedInState(true);
       // setPwdState('');
       // setEmailState('');
-=======
+
       navigate('main', {
         state: { email: emailState, isLoggedIn: true },
       });
->>>>>>> f3b9198786674bdf37fa8639057ac9ec2748664b
+
       return;
     }
 
